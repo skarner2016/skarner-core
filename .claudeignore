@@ -1,0 +1,14 @@
+# 敏感配置
+.env
+.env.*
+config/
+secrets/
+
+# 发布配置
+setup.py
+setup.cfg
+
+# 密钥/证书
+*.key
+*.pem
+*.crt

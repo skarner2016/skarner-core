@@ -1,0 +1,22 @@
+[project]
+name = "skarner-core"
+version = "0.1.0"
+description = "Core infrastructure utilities"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "pyjwt",
+    "pydantic",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
