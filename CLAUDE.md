@@ -32,6 +32,7 @@ src/
       auth/
       tracing/
       ratelimit/
+      db/
       config/
       integrations/
         fastapi/
@@ -130,6 +131,22 @@ Support:
 Return:
 - allowed (bool)
 - remaining (int)
+
+---
+
+### 5.5 db
+
+Implement async database connectivity:
+
+- `DatabaseDialect`: Enum for `mysql` / `postgresql`
+- `DatabaseConfig`: Dataclass with host/port/user/password/database/pool settings
+- `create_engine(config)`: Returns `AsyncEngine` (SQLAlchemy 2.x)
+- `AsyncSessionManager`: Wraps `async_sessionmaker`, provides `session()` context manager with auto-commit/rollback and `close()` for pool disposal
+
+Constraints:
+- SQLAlchemy is optional (`pip install skarner-core[mysql]` or `[postgresql]`)
+- MySQL driver: `aiomysql`; PostgreSQL driver: `asyncpg`
+- No global engine or session; all state injected via `DatabaseConfig`
 
 ---
 

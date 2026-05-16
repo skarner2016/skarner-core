@@ -10,6 +10,19 @@ dependencies = [
     "pydantic",
 ]
 
+[project.optional-dependencies]
+mysql = [
+    "sqlalchemy>=2.0",
+    "aiomysql>=0.2.0",
+]
+postgresql = [
+    "sqlalchemy>=2.0",
+    "asyncpg>=0.29.0",
+]
+db = [
+    "sqlalchemy>=2.0",
+]
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 
