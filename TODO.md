@@ -10,7 +10,7 @@
 |---|---|---|
 | ✅ **配置管理** (`core.config`) | 基于 `pydantic-settings` 的分层配置：`.env` / `.env.{profile}` / env var，支持 dev/prod profile，与 `DatabaseConfig` 桥接（远端配置中心后续做） | 已实现，待联网安装 `pydantic-settings` 后跑测试验证 |
 | **统一异常体系** | `BusinessError(code, message)` + FastAPI 全局 exception_handler，输出标准错误格式 | 缺失 |
-| **统一响应封装** | `ResponseModel[code, data, message, trace_id]` + 便捷 `success()` / `fail()` | 缺失 |
+| ✅ **统一响应封装** | `ResponseModel[code, data, message, trace_id]` + 便捷 `success()` / `fail()` | 已完成 |
 | **健康检查** | `/health`（存活）+ `/ready`（就绪，探 DB/Redis 连通性），K8s 必备 | 缺失 |
 | **分页/排序抽象** | 通用 `Page[T]`、`cursor` / `offset` 分页、排序参数解析 | 缺失 |
 | **DB 迁移集成** | Alembic 初始化脚本、多环境配置、与 `AsyncSessionManager` 联动 | 缺失 |
