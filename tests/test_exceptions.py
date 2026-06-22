@@ -52,3 +52,39 @@ def test_error_code_internal_range():
 
     assert ErrorCode.INTERNAL_ERROR == 9001
     assert ErrorCode.SERVICE_UNAVAILABLE == 9002
+
+
+def test_business_error_inherits_from_exception():
+    """BusinessError should inherit from Exception."""
+    from skarner.core.exceptions import BusinessError, ErrorCode
+
+    error = BusinessError(ErrorCode.AUTH_INVALID_TOKEN, "Invalid token")
+    assert isinstance(error, Exception)
+
+
+def test_business_error_stores_code_and_message():
+    """BusinessError should store code and message."""
+    from skarner.core.exceptions import BusinessError, ErrorCode
+
+    error = BusinessError(ErrorCode.AUTH_INVALID_TOKEN, "Invalid token")
+    assert error.code == ErrorCode.AUTH_INVALID_TOKEN
+    assert error.message == "Invalid token"
+
+
+def test_business_error_string_representation():
+    """BusinessError string should include code name and message."""
+    from skarner.core.exceptions import BusinessError, ErrorCode
+
+    error = BusinessError(ErrorCode.DB_RECORD_NOT_FOUND, "User not found")
+    assert str(error) == "DB_RECORD_NOT_FOUND: User not found"
+
+
+def test_business_error_can_be_raised_and_caught():
+    """BusinessError should be raisable and catchable."""
+    from skarner.core.exceptions import BusinessError, ErrorCode
+
+    with pytest.raises(BusinessError) as exc_info:
+        raise BusinessError(ErrorCode.AUTH_FORBIDDEN, "Access denied")
+
+    assert exc_info.value.code == ErrorCode.AUTH_FORBIDDEN
+    assert exc_info.value.message == "Access denied"
