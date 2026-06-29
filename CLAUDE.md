@@ -34,6 +34,8 @@ src/
       ratelimit/
       db/
       config/
+      exceptions/
+      redis/
       integrations/
         fastapi/
 
@@ -134,7 +136,7 @@ Return:
 
 ---
 
-### 5.5 db
+### 5.7 db
 
 Implement async database connectivity:
 
@@ -150,12 +152,36 @@ Constraints:
 
 ---
 
-### 5.4 integrations.fastapi
+### 5.4 exceptions
+
+Implement unified exception handling:
+
+- `ErrorCode`: IntEnum with categorized error code ranges (auth 1000s, validation 2000s, db 3000s, ratelimit 4000s, internal 9000s)
+- `BusinessError`: Base exception with `code: ErrorCode` and `message: str`
+
+---
+
+### 5.5 redis
+
+Implement Redis connectivity:
+
+- `RedisConfig`: Dataclass with host/port/db/password/pool settings
+- `create_redis_client(config, sync=False)`: Returns `RedisClient` wrapping `redis.asyncio.Redis` (async) or `redis.Redis` (sync)
+- `RedisClient`: Wrapper with `client` property, `ping()`, `close()`
+
+Constraints:
+- redis-py is optional (`pip install skarner-core[redis]`)
+- No global client; all state injected via `RedisConfig`
+
+---
+
+### 5.6 integrations.fastapi
 
 Provide:
 
 - Middleware for trace_id
 - Dependency for rate limit
+- Exception handler for BusinessError, ValueError, TypeError
 
 Do NOT:
 - Put business logic here

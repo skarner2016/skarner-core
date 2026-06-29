@@ -6,6 +6,7 @@ from pydantic import BaseModel, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from skarner.core.db.engine import DatabaseConfig, DatabaseDialect
+from skarner.core.redis.config import RedisConfig
 
 __all__ = [
     "Settings",
@@ -64,6 +65,21 @@ class RedisSettings(BaseModel):
     password: str | None = None
     socket_timeout: float = 5.0
     decode_responses: bool = True
+    socket_connect_timeout: float = 5.0
+    max_connections: int = 10
+
+    def to_redis_config(self) -> RedisConfig:
+        """Convert to the framework-agnostic RedisConfig consumed by create_redis_client()."""
+        return RedisConfig(
+            host=self.host,
+            port=self.port,
+            db=self.db,
+            password=self.password,
+            socket_timeout=self.socket_timeout,
+            socket_connect_timeout=self.socket_connect_timeout,
+            decode_responses=self.decode_responses,
+            max_connections=self.max_connections,
+        )
 
 
 class Settings(BaseSettings):
